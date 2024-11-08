@@ -63,7 +63,7 @@ i
 b
 s
 ```
-Initially I was unsure of what do it after this; I thought of giving it was input to the above program again, which just gave b as the output.  
+Initially I was unsure of what do it after this; I thought of giving it as input to the above program again, which just gave b as the output.  
 I tried submitting it as the flag, which turned out to be correct.  
 
 flag: `picoCTF{adlibs}`
