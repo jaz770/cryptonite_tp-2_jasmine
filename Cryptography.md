@@ -100,7 +100,7 @@ b = 21
 u and v =  43, 8
 Shared key =  47
 ```
-Using this shared key, I wrote a decrpyt() code and got the semi cipher.  
+Using this shared key, I wrote a decrypt() code and got the semi cipher.  
 ```
 def decrypt(code, key):
     semi_cipher = ""
