@@ -27,7 +27,7 @@ for char in chars:
 
 sys.stdout.write(out)
 ```
-Giving ciphertext as input in the input() function gavw:  
+Giving ciphertext as input in the input() function gave:  
 ```
 #asciiorder
 #fortychars
@@ -63,7 +63,72 @@ i
 b
 s
 ```
-Initially I was unsure of what do it after this; I thought of giving it as input to the above program again, which just gave b as the output.  
+Initially I was unsure of what do after this; I thought of giving it as input to the above program again, which just gave b as the output.  
 I tried submitting it as the flag, which turned out to be correct.  
 
 flag: `picoCTF{adlibs}`
+
+
+## Custom Encryption
+
+The ciper is obtained through the the shared key and the semi cipher (which in turn is gotten through the text key) so, to decrypt the cipher, I'll need the shared key.
+Since g and p are fixed and a and b are given in the enc_flag file, u and v can be generated, and through those, the shared key. Then, the cipher can be converted to a semi cipher.
+Entering: 
+```
+p = 97
+g = 31
+a = 94
+b = 21
+print(f"a = {a}")
+print(f"b = {b}")
+u = generator(g, a, p)
+v = generator(g, b, p)
+key = generator(v, a, p)
+b_key = generator(u, b, p)
+shared_key = None
+if key == b_key:
+    shared_key = key
+else:
+    print("Invalid key")
+print("u and v = ", u,", ", v)
+print("Shared key = ", shared_key)
+```
+Gives the output:  
+```
+a = 94
+b = 21
+u and v =  43, 8
+Shared key =  47
+```
+Using this shared key, I wrote a decrpyt() code and got the semi cipher.  
+```
+def decrypt(code, key):
+    semi_cipher = []
+    for i in code:
+        semi_cipher.append(chr(int(((i)/key/311))))
+    return semi_cipher
+```
+I thought I'd have to figure out a way to reverse the the dynamic xor enxryption but found that if the xor encrypted text and the text key are passed as inputs to the the function, it will return the plaintext since xor is reversible. (Simiarly, if the cipher and the plain text were passed as arguments, xoring them would give the text key.)  
+Thus, the code was: 
+```
+def dynamic_xor_decrypt(semicipher, text_key):
+    plain_text= ""
+    key_length = len(text_key)
+    for i, char in enumerate(semicipher[::]):
+        key_char = text_key[i % key_length]
+        encrypted_char = chr(ord(char) ^ ord(key_char))
+        plain_text += encrypted_char
+    return plain_text
+```
+I removed the [::-1] in enumerate since that would decrpyt the cipher, reversed, which would give the wrong answer text.  
+After I'd gotten the decoded plain text, I revered it and printed it.  
+```
+rev_text = (dynamic_xor_decrypt(semiciph, "trudeau"))
+print(rev_text[::-1])
+```
+
+flag: ```picoCTF{custom_d2cr0pt6d_8b41f976} ```
+
+### Incorrect Tangents  
+I thought I'd have to figure out a way to get the text key that I'd pass to xor_encrypt. I assumed that the text_key and plain_text length would be equal so I could just use the semi_cipher length to get the key_char through len(semi_cipher).  When I read up on xor, I understood that there's actually no such requirement and the function wraps around to the beginning of the text_key if the data has not been fully encrypted in one go.  
+Then I tried using "trudeau" as the text key (since it was given as the key to "message"), which worked.
