@@ -120,8 +120,8 @@ def dynamic_xor_decrypt(semicipher, text_key):
         plain_text += encrypted_char
     return plain_text
 ```
-I removed the [::-1] in enumerate since that would decrpyt the cipher, reversed, which would give the wrong answer text.  
-After I'd gotten the decoded plain text, I revered it and printed it.  
+I removed the [::-1] in enumerate since that would decrpyt the cipher reversed, which would give the wrong plain text.  
+After I'd gotten the decoded plain text, I reversed it and printed it.  
 ```
 rev_text = (dynamic_xor_decrypt(semiciph, "trudeau"))
 print(rev_text[::-1])
