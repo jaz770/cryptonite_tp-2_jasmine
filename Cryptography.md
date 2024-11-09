@@ -103,9 +103,9 @@ Shared key =  47
 Using this shared key, I wrote a decrpyt() code and got the semi cipher.  
 ```
 def decrypt(code, key):
-    semi_cipher = []
+    semi_cipher = ""
     for i in code:
-        semi_cipher.append(chr(int(((i)/key/311))))
+        semi_cipher+=(chr(int(((i)/key/311))))
     return semi_cipher
 ```
 I thought I'd have to figure out a way to reverse the the dynamic xor encryption but found that if the xor encrypted text and the text key are passed as inputs to the the function, it will return the plaintext since xor is reversible. (Simiarly, if the cipher and the plain text were passed as arguments, xoring them would give the text key.)  
