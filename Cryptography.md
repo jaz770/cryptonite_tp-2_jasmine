@@ -108,7 +108,7 @@ def decrypt(code, key):
         semi_cipher.append(chr(int(((i)/key/311))))
     return semi_cipher
 ```
-I thought I'd have to figure out a way to reverse the the dynamic xor enxryption but found that if the xor encrypted text and the text key are passed as inputs to the the function, it will return the plaintext since xor is reversible. (Simiarly, if the cipher and the plain text were passed as arguments, xoring them would give the text key.)  
+I thought I'd have to figure out a way to reverse the the dynamic xor encryption but found that if the xor encrypted text and the text key are passed as inputs to the the function, it will return the plaintext since xor is reversible. (Simiarly, if the cipher and the plain text were passed as arguments, xoring them would give the text key.)  
 Thus, the code was: 
 ```
 def dynamic_xor_decrypt(semicipher, text_key):
